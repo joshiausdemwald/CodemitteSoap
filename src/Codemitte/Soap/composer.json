@@ -1,0 +1,20 @@
+{
+    "name":        "codemitte/soap",
+    "type":        "library",
+    "description": "Generic SOAP client library",
+    "keywords":    ["soap", "client", "wsdl"],
+    "homepage":    "https://github.com/joshiausdemwald/CodemitteSoap",
+    "license":     "MIT",
+    "authors": [
+        {
+            "name": "Johannes Heinen",
+            "homepage": "https://github.com/joshiausdemwald"
+        }
+    ],
+    "autoload": {
+        "psr-0": {
+            "Codemitte\\Soap": ""
+        }
+    },
+    "target-dir": "Codemitte/Soap"
+}
