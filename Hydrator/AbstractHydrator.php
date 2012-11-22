@@ -111,7 +111,7 @@ abstract class AbstractHydrator implements HydratorInterface
      * @param $anyXml
      * @return array
      */
-    protected function fromAny($anyXml)
+    public function fromAny($anyXml)
     {
         if( ! is_array($anyXml))
         {

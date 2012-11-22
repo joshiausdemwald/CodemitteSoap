@@ -42,4 +42,13 @@ interface HydratorInterface
      * @return mixed $hydratedResult
      */
     public function hydrate($field, $parentKey = null);
+
+    /**
+     * Converts a raw "<any..." xml stream into a php object
+     * representation.
+     *
+     * @param $anyXml
+     * @return array
+     */
+    public function fromAny($anyXml);
 }
