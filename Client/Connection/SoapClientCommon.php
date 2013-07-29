@@ -22,6 +22,7 @@
 
 namespace Codemitte\Soap\Client\Connection;
 
+use Psr\Log\LoggerInterface;
 use \SoapClient;
 use \SoapFault;
 
@@ -47,6 +48,11 @@ class SoapClientCommon extends SoapClient
      * @var callback
      */
     protected $doRequestCallback;
+
+    /**
+     * @var LoggerInterface
+     */
+    private $logger;
 
     /**
      * Common Soap Client constructor. doRequestCallback may be any php callable.
@@ -95,6 +101,8 @@ class SoapClientCommon extends SoapClient
      */
     function __doRequest($request, $location, $action, $version, $one_way = null)
     {
+        $this->log('info', $request);
+
         $params = array(
             $this, $request, $location, $action, $version
         );
@@ -154,5 +162,33 @@ class SoapClientCommon extends SoapClient
         {
             return $response;
         }
+    }
+
+    /**
+     * @param string $level
+     * @param mixed $toLog
+     */
+    protected function log($level, $toLog, array $context = array())
+    {
+        if(null !== $this->logger)
+        {
+            $this->logger->log($level, $toLog, $context);
+        }
+    }
+
+    /**
+     * @return LoggerInterface|null
+     */
+    public function getLogger()
+    {
+        return $this->logger;
+    }
+
+    /**
+     * @param LoggerInterface $logger
+     */
+    public function setLogger(LoggerInterface $logger = null)
+    {
+        $this->logger = $logger;
     }
 }

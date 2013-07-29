@@ -22,6 +22,7 @@
 
 namespace Codemitte\Soap\Client\Connection;
 
+use Psr\Log\LoggerInterface;
 use \SoapHeader;
 use \SoapFault AS GenericSoapFault;
 
@@ -168,6 +169,11 @@ class Connection implements ConnectionInterface
      * @var DecoratorInterface
      */
     private $decorator;
+
+    /**
+     * @var LoggerInterface
+     */
+    private $logger;
 
     /**
      * Constructor.
@@ -668,11 +674,15 @@ class Connection implements ConnectionInterface
 
         // var_dump(isset($this->options['location']) ? $this->options['location'] : 'No location set');
 
-        return new SoapClientCommon(
+        $client = new SoapClientCommon(
             array($this, 'doRequestCallback'),
             $wsdl,
             $this->options
         );
+
+        $client->setLogger($this->logger);
+
+        return $client;
     }
 
     /**
@@ -1120,5 +1130,21 @@ class Connection implements ConnectionInterface
     public function getHydrator()
     {
         return $this->hydrator;
+    }
+
+    /**
+     * @return \Psr\Log\LoggerInterface
+     */
+    public function getLogger()
+    {
+        return $this->logger;
+    }
+
+    /**
+     * @param LoggerInterface $logger
+     */
+    public function setLogger(LoggerInterface $logger = null)
+    {
+        $this->logger = $logger;
     }
 }

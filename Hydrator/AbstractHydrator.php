@@ -50,7 +50,7 @@ abstract class AbstractHydrator implements HydratorInterface
     public function hydrate($field, $parentKey = null)
     {
         // stdClass: TRANSFORM IT!
-        if($field instanceof \stdClass)
+        if(is_object($field) && $field instanceof \stdClass)
         {
             return $this->doHydrate($field, $parentKey);
         }

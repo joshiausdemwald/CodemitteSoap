@@ -22,6 +22,7 @@
 
 namespace Codemitte\Soap\Client\Connection;
 
+use Psr\Log\LoggerInterface;
 use \Serializable;
 use \SoapHeader;
 use Codemitte\Soap\Hydrator\HydratorInterface;
@@ -277,4 +278,14 @@ interface ConnectionInterface extends Serializable
      * @return HydratorInterface
      */
     public function getHydrator();
+
+    /**
+     * @return null|LoggerInterface
+     */
+    public function getLogger();
+
+    /**
+     * @param LoggerInterface $logger
+     */
+    public function setLogger(LoggerInterface $logger = null);
 }
