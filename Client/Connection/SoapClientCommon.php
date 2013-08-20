@@ -81,9 +81,32 @@ class SoapClientCommon extends SoapClient
      */
     public function __soapCall($function, $arguments, $options = null, $input_headers = null, & $output_headers = null)
     {
-        $retVal = parent::__soapCall($function, $arguments, $options, $input_headers, $output_headers);
+        $exThrown   = null;
+        $retVal     = null;
+
+        try
+        {
+            $retVal = parent::__soapCall($function, $arguments, $options, $input_headers, $output_headers);
+        }
+        catch(\Exception $e)
+        {
+            $exThrown = $e;
+        }
 
         $this->outputHeaders = $output_headers;
+
+        $this->log('info', '####SOAP CALL RESPONSE: ');
+
+        $this->log('info', parent::__getLastResponse());
+
+        $this->log('info', var_export(parent::__getLastResponseHeaders(), true));
+
+        $this->log('info', var_export($retVal, true));
+
+        if($exThrown)
+        {
+            throw $exThrown;
+        }
 
         return $retVal;
     }
@@ -101,6 +124,7 @@ class SoapClientCommon extends SoapClient
      */
     function __doRequest($request, $location, $action, $version, $one_way = null)
     {
+        $this->log('info', '####SOAP CALL REQUEST: ');
         $this->log('info', $request);
 
         $params = array(
